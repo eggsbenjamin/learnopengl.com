@@ -67,7 +67,7 @@ int main() {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    std::string vertexShaderSource = readFile("./shaders/vertex.glsl");
+    std::string vertexShaderSource = readFile("./glsl/vertex.glsl");
     const char* t = vertexShaderSource.c_str();
     
     glShaderSource(vertexShader, 1, &t, NULL);
@@ -84,7 +84,7 @@ int main() {
     }
 
     unsigned int fragmentShaderOrange = glCreateShader(GL_FRAGMENT_SHADER);
-    std::string fragmentShaderOrangeSource = readFile("./shaders/fragment_orange.glsl");
+    std::string fragmentShaderOrangeSource = readFile("./glsl/fragment_orange.glsl");
     t = fragmentShaderOrangeSource.c_str();
 
     glShaderSource(fragmentShaderOrange, 1, &t, NULL);
@@ -99,7 +99,7 @@ int main() {
     }
 
     unsigned int fragmentShaderYellow = glCreateShader(GL_FRAGMENT_SHADER);
-    std::string fragmentShaderYellowSource = readFile("./shaders/fragment_yellow.glsl");
+    std::string fragmentShaderYellowSource = readFile("./glsl/fragment_yellow.glsl");
     t = fragmentShaderYellowSource.c_str();
 
     glShaderSource(fragmentShaderYellow, 1, &t, NULL);
@@ -114,7 +114,7 @@ int main() {
     }
 
     unsigned int fragmentShaderBackground = glCreateShader(GL_FRAGMENT_SHADER);
-    std::string fragmentShaderBackgroundSource = readFile("./shaders/fragment_background.glsl");
+    std::string fragmentShaderBackgroundSource = readFile("./glsl/fragment_background.glsl");
     t = fragmentShaderBackgroundSource.c_str();
 
     glShaderSource(fragmentShaderBackground, 1, &t, NULL);

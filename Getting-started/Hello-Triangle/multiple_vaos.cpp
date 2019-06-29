@@ -67,7 +67,7 @@ int main() {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    std::string vertexShaderSource = readFile("./shaders/vertex.glsl");
+    std::string vertexShaderSource = readFile("./glsl/vertex.glsl");
     const char* t = vertexShaderSource.c_str();
     
     glShaderSource(vertexShader, 1, &t, NULL);
@@ -84,7 +84,7 @@ int main() {
     }
 
     unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    std::string fragmentShaderSource = readFile("./shaders/fragment.glsl");
+    std::string fragmentShaderSource = readFile("./glsl/fragment.glsl");
     t = fragmentShaderSource.c_str();
 
     glShaderSource(fragmentShader, 1, &t, NULL);

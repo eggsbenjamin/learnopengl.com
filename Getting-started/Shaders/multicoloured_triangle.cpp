@@ -1,21 +1,3 @@
-/*
- * =====================================================================================
- *
- *       Filename:  main.cpp
- *
- *    Description:  
- *
- *        Version:  1.0
- *        Created:  27/06/19 18:48:59
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  Ben Davies (eggsbenjamin), eggs.benjamin@gmail.com
- *   Organization:  
- *
- * =====================================================================================
- */
-
 #include <iostream>
 #include <fstream>
 #include <iostream>
@@ -67,7 +49,7 @@ int main() {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    std::string vertexShaderSource = readFile("./glsl/vertex.glsl");
+    std::string vertexShaderSource = readFile("./glsl/vertex_with_colour_input.glsl");
     const char* t = vertexShaderSource.c_str();
     
     glShaderSource(vertexShader, 1, &t, NULL);
@@ -84,7 +66,7 @@ int main() {
     }
 
     unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    std::string fragmentShaderSource = readFile("./glsl/fragment.glsl");
+    std::string fragmentShaderSource = readFile("./glsl/parameterised_fragment.glsl");
     t = fragmentShaderSource.c_str();
 
     glShaderSource(fragmentShader, 1, &t, NULL);
@@ -116,16 +98,10 @@ int main() {
     // set up VBO/VAO
 
     float vertices[] = {
-      // left triangle
-      -1.0f, -0.5f, 0.0f, // bottom left
-       0.0f, -0.5f, 0.0f, // bottom right
-      -0.5f,  0.5f, 0.0f, // top
-
-
-      // right triangle
-       0.0f, -0.5f, 0.0f, // bottom left
-       1.0f, -0.5f, 0.0f, // bottom right
-       0.5f,  0.5f, 0.0f, // top
+      // positions          // colours
+      -0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,
+       0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f, 
+       0.0f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,
     };
     unsigned int VBO, VAO;
 
@@ -136,11 +112,15 @@ int main() {
     glBindBuffer(GL_ARRAY_BUFFER, VBO); 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0); 
+    // position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
+    glEnableVertexAttribArray(1);
+
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-
 
     while(!glfwWindowShouldClose(window)) {
       processInput(window);
@@ -150,7 +130,7 @@ int main() {
 
       glBindVertexArray(VAO);
       glUseProgram(shaderProgram);
-      glDrawArrays(GL_TRIANGLES, 0, 6);
+      glDrawArrays(GL_TRIANGLES, 0, 3);
 
       glfwSwapBuffers(window);
       glfwPollEvents();     

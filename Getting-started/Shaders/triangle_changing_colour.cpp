@@ -1,25 +1,8 @@
-/*
- * =====================================================================================
- *
- *       Filename:  main.cpp
- *
- *    Description:  
- *
- *        Version:  1.0
- *        Created:  27/06/19 18:48:59
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  Ben Davies (eggsbenjamin), eggs.benjamin@gmail.com
- *   Organization:  
- *
- * =====================================================================================
- */
-
 #include <iostream>
 #include <fstream>
 #include <iostream>
 #include <sstream> 
+#include <math.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -116,16 +99,9 @@ int main() {
     // set up VBO/VAO
 
     float vertices[] = {
-      // left triangle
-      -1.0f, -0.5f, 0.0f, // bottom left
-       0.0f, -0.5f, 0.0f, // bottom right
-      -0.5f,  0.5f, 0.0f, // top
-
-
-      // right triangle
-       0.0f, -0.5f, 0.0f, // bottom left
-       1.0f, -0.5f, 0.0f, // bottom right
-       0.5f,  0.5f, 0.0f, // top
+      -0.5f, -0.5f, 0.0f,
+       0.5f, -0.5f, 0.0f,
+       0.0f,  0.5f, 0.0f
     };
     unsigned int VBO, VAO;
 
@@ -148,9 +124,15 @@ int main() {
       glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT);
 
-      glBindVertexArray(VAO);
       glUseProgram(shaderProgram);
-      glDrawArrays(GL_TRIANGLES, 0, 6);
+
+      float timeValue = glfwGetTime();
+      float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+      int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColour");
+      glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
+      glBindVertexArray(VAO);
+      glDrawArrays(GL_TRIANGLES, 0, 3);
 
       glfwSwapBuffers(window);
       glfwPollEvents();     
